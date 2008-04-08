@@ -8,6 +8,7 @@ category:	Monads
 synopsis:	A monad transformer version of the ST monad
 description:	A monad transformer version of the ST monad
 cabal-version: >=1.2
+build-type:	Simple
 
 flag splitBase
   description: Choose the new smaller, split-up base package.
@@ -21,4 +22,4 @@ library
   exposed-modules:	Control.Monad.ST.Trans
   extensions:	MagicHash, UnboxedTuples, Rank2Types, FlexibleInstances, 
         MultiParamTypeClasses
-  ghc-options:	-O
+
