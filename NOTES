@@ -1,0 +1,4 @@
+Before 1.0 STT should be made an instance of the MArray class
+
+Maybe I shouldn't define my own versions of STRef and STArray? But I see
+no harm in doing so.
