@@ -1,6 +1,5 @@
 {-# LANGUAGE MagicHash, UnboxedTuples, Rank2Types, FlexibleInstances,
-    MultiParamTypeClasses #-}
-{-# OPTIONS_GHC -fallow-undecidable-instances #-}
+    MultiParamTypeClasses, UndecidableInstances #-}
 {- |
    Module      :  Control.Monad.ST.Trans
    Copyright   :  Josef Svenningsson 2008
