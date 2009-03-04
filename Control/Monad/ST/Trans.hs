@@ -51,6 +51,8 @@ import Control.Monad.Reader.Class
 import Control.Monad.State.Class
 import Control.Monad.Writer.Class
 
+import Control.Applicative
+
 -- | 'STT' is the monad transformer providing polymorphic updateable references
 newtype STT s m a = STT (State# s -> m (STTRet s a))
 unSTT (STT f) = f
@@ -69,6 +71,19 @@ instance MonadTrans (STT s) where
   lift m = STT $ \st ->
    do a <- m
       return (STTRet st a)
+
+instance Functor (STTRet s) where
+  fmap f (STTRet s a) = STTRet s (f a)
+
+instance Functor m => Functor (STT s m) where
+  fmap f (STT g) = STT $ \s# -> (fmap . fmap) f (g s#)
+
+instance (Monad m, Functor m) => Applicative (STT s m) where
+  pure a = STT $ \s# -> return (STTRet s# a)
+  (STT m) <*> (STT n) = STT $ \s1 ->
+                        do (STTRet s2 f) <- m s1
+                           (STTRet s3 x) <- n s2
+                           return (STTRet s3 (f x))
 
 -- | Mutable references
 data STRef s a = STRef (MutVar# s a)
