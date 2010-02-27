@@ -1,10 +1,12 @@
 name:		STMonadTrans
 version:	0.2
+cabal-version:  >= 1.2
 license:	BSD3
 license-file:	LICENSE
 author:		Josef Svenningsson
 maintainer:	josef.svenningsson@gmail.com
 category:	Monads
+build-type:	Simple
 synopsis:	A monad transformer version of the ST monad
 description:	
    A monad transformer version of the ST monad
@@ -19,9 +21,6 @@ description:
 source-repository head
   type:     darcs
   location: http://patch-tag.com/r/josef/STMonadTrans
-
-cabal-version: >=1.2
-build-type:	Simple
 
 flag splitBase
   description: Choose the new smaller, split-up base package.
