@@ -1,5 +1,5 @@
 {-# LANGUAGE MagicHash, UnboxedTuples, Rank2Types, FlexibleInstances,
-    MultiParamTypeClasses, UndecidableInstances #-}
+    MultiParamTypeClasses, UndecidableInstances, RecursiveDo #-}
 {- |
    Module      :  Control.Monad.ST.Trans
    Copyright   :  Josef Svenningsson 2008
@@ -38,13 +38,19 @@ module Control.Monad.ST.Trans(
       numElementsSTArray,
       freezeSTArray,
       thawSTArray,
-      runSTArray
+      runSTArray,
+      -- * Unsafe Operations
+      unsafeIOToST,
+      unsafeSTToIO,
+      unsafeSTRefToIORef,
+      unsafeIORefToSTRef
       )where
 
 import GHC.Base
 import GHC.Arr (Ix(..), safeRangeSize, safeIndex, 
                 Array(..), arrEleBottom)
 
+import Control.Monad.Fix
 import Control.Monad.Trans
 import Control.Monad.Error.Class
 import Control.Monad.Reader.Class
@@ -52,6 +58,12 @@ import Control.Monad.State.Class
 import Control.Monad.Writer.Class
 
 import Control.Applicative
+
+import Data.IORef
+
+import Unsafe.Coerce
+import System.IO.Unsafe
+
 
 -- | 'STT' is the monad transformer providing polymorphic updateable references
 newtype STT s m a = STT (State# s -> m (STTRet s a))
@@ -71,6 +83,14 @@ instance MonadTrans (STT s) where
   lift m = STT $ \st ->
    do a <- m
       return (STTRet st a)
+      
+liftSTT :: STT s m a -> State# s -> m (STTRet s a)
+liftSTT (STT m) s = m s
+
+instance (MonadFix m) => MonadFix (STT s m) where
+  mfix k = STT $ \ s -> mdo
+    ans@(STTRet _ r) <- liftSTT (k r) s
+    return ans
 
 instance Functor (STTRet s) where
   fmap f (STTRet s a) = STTRet s (f a)
@@ -223,4 +243,20 @@ runSTArray :: (Ix i, Monad m)
            => (forall s . STT s m (STArray s i e))
            -> m (Array i e)
 runSTArray st = runST (st >>= unsafeFreezeSTArray)
+
+
+{-# NOINLINE unsafeIOToST #-} 
+unsafeIOToST :: (Monad m) => IO a -> STT s m a
+unsafeIOToST m = return $! unsafePerformIO m
+
+unsafeSTToIO :: STT s IO a -> IO a
+unsafeSTToIO m = runST $ unsafeCoerce m
+
+-- This should work, as STRef and IORef should have identical internal representation
+unsafeSTRefToIORef  :: STRef s a -> IORef a
+unsafeSTRefToIORef ref = unsafeCoerce ref
+
+unsafeIORefToSTRef :: IORef a -> STRef s a
+unsafeIORefToSTRef ref = unsafeCoerce ref
+
 
