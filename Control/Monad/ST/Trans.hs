@@ -40,7 +40,7 @@ module Control.Monad.ST.Trans(
       thawSTArray,
       runSTArray,
       -- * Unsafe Operations
-      unsafeIOToST,
+      unsafeIOToSTT,
       unsafeSTToIO,
       unsafeSTRefToIORef,
       unsafeIORefToSTRef
@@ -245,9 +245,9 @@ runSTArray :: (Ix i, Monad m)
 runSTArray st = runST (st >>= unsafeFreezeSTArray)
 
 
-{-# NOINLINE unsafeIOToST #-} 
-unsafeIOToST :: (Monad m) => IO a -> STT s m a
-unsafeIOToST m = return $! unsafePerformIO m
+{-# NOINLINE unsafeIOToSTT #-} 
+unsafeIOToSTT :: (Monad m) => IO a -> STT s m a
+unsafeIOToSTT m = return $! unsafePerformIO m
 
 unsafeSTToIO :: STT s IO a -> IO a
 unsafeSTToIO m = runST $ unsafeCoerce m
