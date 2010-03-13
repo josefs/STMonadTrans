@@ -2,7 +2,7 @@
     MultiParamTypeClasses, UndecidableInstances, RecursiveDo #-}
 {- |
    Module      :  Control.Monad.ST.Trans
-   Copyright   :  Josef Svenningsson 2008
+   Copyright   :  Josef Svenningsson 2008-2010
                   (c) The University of Glasgow, 1994-2000
    License     :  BSD
  
