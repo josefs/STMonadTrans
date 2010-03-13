@@ -1,6 +1,6 @@
 name:		STMonadTrans
 version:	0.2
-cabal-version:  >= 1.2
+cabal-version:  >= 1.6
 license:	BSD3
 license-file:	LICENSE
 author:		Josef Svenningsson
@@ -27,7 +27,7 @@ flag splitBase
 
 library
   if flag(splitBase)
-    build-depends: base >= 3, mtl, array
+    build-depends: base >= 3, base < 4, mtl, array
   else
     build-depends: base < 3
 
