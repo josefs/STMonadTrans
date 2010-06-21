@@ -33,5 +33,5 @@ library
 
   exposed-modules:	Control.Monad.ST.Trans
   extensions:	MagicHash, UnboxedTuples, Rank2Types, FlexibleInstances, 
-        MultiParamTypeClasses, UndecidableInstances
+        MultiParamTypeClasses, UndecidableInstances, DoRec
 

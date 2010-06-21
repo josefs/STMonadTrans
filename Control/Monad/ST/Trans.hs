@@ -1,5 +1,5 @@
 {-# LANGUAGE MagicHash, UnboxedTuples, Rank2Types, FlexibleInstances,
-    MultiParamTypeClasses, UndecidableInstances, RecursiveDo #-}
+    MultiParamTypeClasses, UndecidableInstances, DoRec #-}
 {- |
    Module      :  Control.Monad.ST.Trans
    Copyright   :  Josef Svenningsson 2008-2010
@@ -88,8 +88,8 @@ liftSTT :: STT s m a -> State# s -> m (STTRet s a)
 liftSTT (STT m) s = m s
 
 instance (MonadFix m) => MonadFix (STT s m) where
-  mfix k = STT $ \ s -> mdo
-    ans@(STTRet _ r) <- liftSTT (k r) s
+  mfix k = STT $ \ s -> do
+    rec ans@(STTRet _ r) <- liftSTT (k r) s
     return ans
 
 instance Functor (STTRet s) where
