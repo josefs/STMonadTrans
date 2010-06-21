@@ -31,7 +31,9 @@ library
   else
     build-depends: base < 3
 
-  exposed-modules:	Control.Monad.ST.Trans
+  exposed-modules:	
+    Control.Monad.ST.Trans,
+    Control.Monad.ST.Trans.Internal
   extensions:	MagicHash, UnboxedTuples, Rank2Types, FlexibleInstances, 
         MultiParamTypeClasses, UndecidableInstances, DoRec
 

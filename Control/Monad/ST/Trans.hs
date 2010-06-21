@@ -50,6 +50,8 @@ import GHC.Base
 import GHC.Arr (Ix(..), safeRangeSize, safeIndex, 
                 Array(..), arrEleBottom)
 
+import Control.Monad.ST.Trans.Internal
+
 import Control.Monad.Fix
 import Control.Monad.Trans
 import Control.Monad.Error.Class
@@ -63,13 +65,6 @@ import Data.IORef
 
 import Unsafe.Coerce
 import System.IO.Unsafe
-
-
--- | 'STT' is the monad transformer providing polymorphic updateable references
-newtype STT s m a = STT (State# s -> m (STTRet s a))
-unSTT (STT f) = f
-
-data STTRet s a = STTRet (State# s) a
 
 instance Monad m => Monad (STT s m) where
   return a = STT $ \st -> return (STTRet st a)
