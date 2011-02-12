@@ -27,7 +27,7 @@ flag splitBase
 
 library
   if flag(splitBase)
-    build-depends: base >= 3, base < 4, mtl, array
+    build-depends: base >= 3, base < 5, mtl, array
   else
     build-depends: base < 3
 
