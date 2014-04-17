@@ -1,5 +1,5 @@
 name:		STMonadTrans
-version:	0.3.1
+version:	0.3.2
 cabal-version:  >= 1.6
 license:	BSD3
 license-file:	LICENSE
@@ -34,6 +34,6 @@ library
   exposed-modules:	
     Control.Monad.ST.Trans,
     Control.Monad.ST.Trans.Internal
-  extensions:	MagicHash, UnboxedTuples, Rank2Types, FlexibleInstances, 
+  extensions:	CPP, MagicHash, UnboxedTuples, Rank2Types, FlexibleInstances,
         MultiParamTypeClasses, UndecidableInstances
 

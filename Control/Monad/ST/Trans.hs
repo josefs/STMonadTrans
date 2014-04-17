@@ -1,4 +1,4 @@
-{-# LANGUAGE MagicHash, UnboxedTuples, Rank2Types, FlexibleInstances,
+{-# LANGUAGE CPP, MagicHash, UnboxedTuples, Rank2Types, FlexibleInstances,
     MultiParamTypeClasses, UndecidableInstances, RecursiveDo #-}
 {- |
    Module      :  Control.Monad.ST.Trans
@@ -66,6 +66,11 @@ import Data.IORef
 import Unsafe.Coerce
 import System.IO.Unsafe
 
+#if __GLASGOW_HASKELL__ < 708
+isTrue# :: Bool -> Bool
+isTrue# x = x
+#endif
+
 instance Monad m => Monad (STT s m) where
   return a = STT $ \st -> return (STTRet st a)
   STT m >>= k = STT $ \st -> 
@@ -122,7 +127,7 @@ writeSTRef (STRef var) a = STT $ \st1 ->
       st2 -> return (STTRet st2 ())
 
 instance Eq (STRef s a) where
-  STRef v1 == STRef v2 = sameMutVar# v1 v2
+  STRef v1 == STRef v2 = isTrue# (sameMutVar# v1 v2)
 
 -- | Executes a computation in the 'STT' monad transformer
 runST :: Monad m => (forall s. STT s m a) -> m a
@@ -159,7 +164,7 @@ instance MonadWriter w m => MonadWriter w (STT s m) where
 data STArray s i e = STArray !i !i !Int (MutableArray# s e)
 
 instance Eq (STArray s i e) where
-  STArray _ _ _ arr1# == STArray _ _ _ arr2# = sameMutableArray# arr1# arr2#
+  STArray _ _ _ arr1# == STArray _ _ _ arr2# = isTrue# (sameMutableArray# arr1# arr2#)
 
 -- | Creates a new mutable array
 newSTArray :: (Ix i, Monad m) => (i,i) -> e -> STT s m (STArray s i e)
@@ -200,8 +205,8 @@ unsafeWriteSTArray (STArray _ _ _ marr#) (I# i#) e = STT $ \s1# ->
 freezeSTArray :: (Ix i,Monad m) => STArray s i e -> STT s m (Array i e)
 freezeSTArray (STArray l u n@(I# n#) marr#) = STT $ \s1# ->
     case newArray# n# arrEleBottom s1#  of { (# s2#, marr'# #) ->
-    let copy i# s3# | i# ==# n# = s3#
-                    | otherwise =
+    let copy i# s3# | isTrue# (i# ==# n#) = s3#
+                    | otherwise           =
             case readArray# marr# i# s3# of { (# s4#, e #) ->
             case writeArray# marr'# i# e s4# of { s5# ->
             copy (i# +# 1#) s5# }} in
@@ -218,8 +223,8 @@ unsafeFreezeSTArray (STArray l u n marr#) = STT $ \s1# ->
 thawSTArray :: (Ix i, Monad m) => Array i e -> STT s m (STArray s i e)
 thawSTArray (Array l u n@(I# n#) arr#) = STT $ \s1# ->
     case newArray# n# arrEleBottom s1#  of { (# s2#, marr# #) ->
-    let copy i# s3# | i# ==# n# = s3#
-                    | otherwise =
+    let copy i# s3# | isTrue# (i# ==# n#) = s3#
+                    | otherwise           =
             case indexArray# arr# i#    of { (# e #) ->
             case writeArray# marr# i# e s3# of { s4# ->
             copy (i# +# 1#) s4# }} in

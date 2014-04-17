@@ -1,5 +1,5 @@
 {-# LANGUAGE MagicHash, UnboxedTuples, Rank2Types, FlexibleInstances,
-    MultiParamTypeClasses, UndecidableInstances, DoRec #-}
+    MultiParamTypeClasses, UndecidableInstances, RecursiveDo #-}
 {- |
    Module      :  Control.Monad.ST.Trans
    Copyright   :  Josef Svenningsson 2008-2010
