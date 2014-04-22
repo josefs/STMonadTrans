@@ -19,8 +19,8 @@ description:
    combinations of their corresponding monad transformers.
 
 source-repository head
-  type:     darcs
-  location: http://patch-tag.com/r/josef/STMonadTrans
+  type:     git
+  location: https://github.com/josefs/STMonadTrans
 
 flag splitBase
   description: Choose the new smaller, split-up base package.
