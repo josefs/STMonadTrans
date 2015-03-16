@@ -78,6 +78,7 @@ instance Monad m => Monad (STT s m) where
        case ret of
          STTRet new_st a -> 
              unSTT (k a) new_st
+  fail msg = lift (fail msg)
 
 instance MonadTrans (STT s) where
   lift m = STT $ \st ->
