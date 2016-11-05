@@ -130,6 +130,7 @@ writeSTRef (STRef var) a = STT $ \st1 ->
 instance Eq (STRef s a) where
   STRef v1 == STRef v2 = isTrue# (sameMutVar# v1 v2)
 
+{-# NOINLINE runST #-}
 -- | Executes a computation in the 'STT' monad transformer
 runST :: Monad m => (forall s. STT s m a) -> m a
 runST m = let (STT f) = m
