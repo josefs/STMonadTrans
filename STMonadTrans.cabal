@@ -1,6 +1,6 @@
 name:		STMonadTrans
 version:	0.3.3
-cabal-version:  >= 1.6
+cabal-version:  >= 1.8
 license:	BSD3
 license-file:	LICENSE
 author:		Josef Svenningsson
@@ -37,3 +37,8 @@ library
   extensions:	CPP, MagicHash, UnboxedTuples, Rank2Types, FlexibleInstances,
         MultiParamTypeClasses, UndecidableInstances
 
+Test-Suite foo
+  type: detailed-0.9
+  hs-source-dirs: test
+  test-module: Test
+  build-depends: STMonadTrans, base, mtl, array, Cabal
