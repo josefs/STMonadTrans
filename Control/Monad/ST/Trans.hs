@@ -60,6 +60,7 @@ import qualified Data.STRef as STRef
 import Data.Array.ST hiding (runSTArray)
 import qualified Data.Array.ST as STArray
 
+import Control.Applicative
 import Control.Monad.ST.Trans.Internal
 
 import Data.IORef
@@ -74,15 +75,15 @@ isTrue# x = x
 
 
 -- | Create a new reference
-newSTRef :: Monad m => a -> STT s m (STRef s a)
+newSTRef :: (Applicative m, Monad m) => a -> STT s m (STRef s a)
 newSTRef init = liftST (STRef.newSTRef init)
 
 -- | Reads the value of a reference
-readSTRef :: Monad m => STRef s a -> STT s m a
+readSTRef :: (Applicative m, Monad m) => STRef s a -> STT s m a
 readSTRef ref = liftST (STRef.readSTRef ref)
 
 -- | Modifies the value of a reference
-writeSTRef :: Monad m => STRef s a -> a -> STT s m ()
+writeSTRef :: (Applicative m, Monad m) => STRef s a -> a -> STT s m ()
 writeSTRef ref a = liftST (STRef.writeSTRef ref a)
 
 {-# NOINLINE runST #-}
@@ -103,7 +104,8 @@ runSTT m = let (STT f) = m
 -- Mutable arrays.
 
 -- | Creates a new mutable array
-newSTArray :: (Ix i, Monad m) => (i,i) -> e -> STT s m (STArray s i e)
+newSTArray :: (Ix i, Applicative m, Monad m) =>
+              (i,i) -> e -> STT s m (STArray s i e)
 newSTArray bounds init = liftST (newArray bounds init)
 
 -- | Returns the lowest and highest indices of the array
@@ -115,37 +117,45 @@ numElementsSTArray :: STArray s i e -> Int
 numElementsSTArray = STArray.numElementsSTArray
 
 -- | Retrieves an element from the array
-readSTArray :: (Ix i, Monad m) => STArray s i e -> i -> STT s m e
+readSTArray :: (Ix i, Applicative m, Monad m) =>
+               STArray s i e -> i -> STT s m e
 readSTArray arr i = liftST (readArray arr i)
 
-unsafeReadSTArray :: (Ix i, Monad m) => STArray s i e -> Int -> STT s m e
+unsafeReadSTArray :: (Ix i, Applicative m, Monad m) =>
+                     STArray s i e -> Int -> STT s m e
 unsafeReadSTArray arr i = liftST (STArray.unsafeReadSTArray arr i)
 
 -- | Modifies an element in the array
-writeSTArray :: (Ix i, Monad m) => STArray s i e -> i -> e -> STT s m ()
+writeSTArray :: (Ix i, Applicative m, Monad m) =>
+                STArray s i e -> i -> e -> STT s m ()
 writeSTArray arr i e = liftST (writeArray arr i e)
 
-unsafeWriteSTArray :: (Ix i, Monad m) => STArray s i e -> Int -> e -> STT s m ()
+unsafeWriteSTArray :: (Ix i, Applicative m, Monad m) =>
+                      STArray s i e -> Int -> e -> STT s m ()
 unsafeWriteSTArray arr i e = liftST (STArray.unsafeWriteSTArray arr i e)
 
 -- | Copy a mutable array and turn it into an immutable array
-freezeSTArray :: (Ix i,Monad m) => STArray s i e -> STT s m (Array i e)
+freezeSTArray :: (Ix i, Applicative m, Monad m) =>
+                 STArray s i e -> STT s m (Array i e)
 freezeSTArray arr = liftST (STArray.freezeSTArray arr)
 
-unsafeFreezeSTArray :: (Ix i, Monad m) => STArray s i e -> STT s m (Array i e)
+unsafeFreezeSTArray :: (Ix i, Applicative m, Monad m) =>
+                       STArray s i e -> STT s m (Array i e)
 unsafeFreezeSTArray arr = liftST (STArray.unsafeFreezeSTArray arr)
 
 -- | Copy an immutable array and turn it into a mutable array
-thawSTArray :: (Ix i, Monad m) => Array i e -> STT s m (STArray s i e)
+thawSTArray :: (Ix i, Applicative m, Monad m) =>
+               Array i e -> STT s m (STArray s i e)
 thawSTArray arr = liftST (STArray.thawSTArray arr)
 
-unsafeThawSTArray :: (Ix i, Monad m) => Array i e -> STT s m (STArray s i e)
+unsafeThawSTArray :: (Ix i, Applicative m, Monad m) =>
+                     Array i e -> STT s m (STArray s i e)
 unsafeThawSTArray arr = liftST (STArray.unsafeThawSTArray arr)
 
 -- | A safe way to create and work with a mutable array before returning an
 -- immutable array for later perusal.  This function avoids copying
 -- the array before returning it.
-runSTArray :: (Ix i, Monad m)
+runSTArray :: (Ix i, Applicative m, Monad m)
            => (forall s . STT s m (STArray s i e))
            -> m (Array i e)
 runSTArray st = runST (st >>= unsafeFreezeSTArray)
