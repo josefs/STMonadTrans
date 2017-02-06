@@ -121,7 +121,7 @@ instance MonadWriter w m => MonadWriter w (STT s m) where
 
 -- MArray instances
 
-instance Monad m => MArray (STArray s) e (STT s m) where
+instance (Applicative m, Monad m) => MArray (STArray s) e (STT s m) where
     {-# INLINE getBounds #-}
     getBounds arr = liftST (getBounds arr)
     {-# INLINE getNumElements #-}
@@ -133,7 +133,7 @@ instance Monad m => MArray (STArray s) e (STT s m) where
     {-# INLINE unsafeWrite #-}
     unsafeWrite arr i e = liftST (unsafeWrite arr i e)
 
-instance Monad m => MArray (STUArray s) Bool (STT s m) where
+instance (Applicative m, Monad m) => MArray (STUArray s) Bool (STT s m) where
     {-# INLINE getBounds #-}
     getBounds arr = liftST (getBounds arr)
     {-# INLINE getNumElements #-}
@@ -145,7 +145,7 @@ instance Monad m => MArray (STUArray s) Bool (STT s m) where
     {-# INLINE unsafeWrite #-}
     unsafeWrite arr i e = liftST (unsafeWrite arr i e)
 
-instance Monad m => MArray (STUArray s) Char (STT s m) where
+instance (Applicative m, Monad m) => MArray (STUArray s) Char (STT s m) where
     {-# INLINE getBounds #-}
     getBounds arr = liftST (getBounds arr)
     {-# INLINE getNumElements #-}
@@ -157,7 +157,7 @@ instance Monad m => MArray (STUArray s) Char (STT s m) where
     {-# INLINE unsafeWrite #-}
     unsafeWrite arr i e = liftST (unsafeWrite arr i e)
 
-instance Monad m => MArray (STUArray s) Int (STT s m) where
+instance (Applicative m, Monad m) => MArray (STUArray s) Int (STT s m) where
     {-# INLINE getBounds #-}
     getBounds arr = liftST (getBounds arr)
     {-# INLINE getNumElements #-}
@@ -169,7 +169,7 @@ instance Monad m => MArray (STUArray s) Int (STT s m) where
     {-# INLINE unsafeWrite #-}
     unsafeWrite arr i e = liftST (unsafeWrite arr i e)
 
-instance Monad m => MArray (STUArray s) Word (STT s m) where
+instance (Applicative m, Monad m) => MArray (STUArray s) Word (STT s m) where
     {-# INLINE getBounds #-}
     getBounds arr = liftST (getBounds arr)
     {-# INLINE getNumElements #-}
@@ -181,7 +181,7 @@ instance Monad m => MArray (STUArray s) Word (STT s m) where
     {-# INLINE unsafeWrite #-}
     unsafeWrite arr i e = liftST (unsafeWrite arr i e)
 
-instance Monad m => MArray (STUArray s) (Ptr a) (STT s m) where
+instance (Applicative m, Monad m) => MArray (STUArray s) (Ptr a) (STT s m) where
     {-# INLINE getBounds #-}
     getBounds arr = liftST (getBounds arr)
     {-# INLINE getNumElements #-}
@@ -193,7 +193,7 @@ instance Monad m => MArray (STUArray s) (Ptr a) (STT s m) where
     {-# INLINE unsafeWrite #-}
     unsafeWrite arr i e = liftST (unsafeWrite arr i e)
 
-instance Monad m => MArray (STUArray s) (FunPtr a) (STT s m) where
+instance (Applicative m, Monad m) => MArray (STUArray s) (FunPtr a) (STT s m) where
     {-# INLINE getBounds #-}
     getBounds arr = liftST (getBounds arr)
     {-# INLINE getNumElements #-}
@@ -205,7 +205,7 @@ instance Monad m => MArray (STUArray s) (FunPtr a) (STT s m) where
     {-# INLINE unsafeWrite #-}
     unsafeWrite arr i e = liftST (unsafeWrite arr i e)
 
-instance Monad m => MArray (STUArray s) Float (STT s m) where
+instance (Applicative m, Monad m) => MArray (STUArray s) Float (STT s m) where
     {-# INLINE getBounds #-}
     getBounds arr = liftST (getBounds arr)
     {-# INLINE getNumElements #-}
@@ -217,7 +217,7 @@ instance Monad m => MArray (STUArray s) Float (STT s m) where
     {-# INLINE unsafeWrite #-}
     unsafeWrite arr i e = liftST (unsafeWrite arr i e)
 
-instance Monad m => MArray (STUArray s) Double (STT s m) where
+instance (Applicative m, Monad m) => MArray (STUArray s) Double (STT s m) where
     {-# INLINE getBounds #-}
     getBounds arr = liftST (getBounds arr)
     {-# INLINE getNumElements #-}
@@ -229,7 +229,7 @@ instance Monad m => MArray (STUArray s) Double (STT s m) where
     {-# INLINE unsafeWrite #-}
     unsafeWrite arr i e = liftST (unsafeWrite arr i e)
 
-instance Monad m => MArray (STUArray s) (StablePtr a) (STT s m) where
+instance (Applicative m, Monad m) => MArray (STUArray s) (StablePtr a) (STT s m) where
     {-# INLINE getBounds #-}
     getBounds arr = liftST (getBounds arr)
     {-# INLINE getNumElements #-}
@@ -241,7 +241,7 @@ instance Monad m => MArray (STUArray s) (StablePtr a) (STT s m) where
     {-# INLINE unsafeWrite #-}
     unsafeWrite arr i e = liftST (unsafeWrite arr i e)
 
-instance Monad m => MArray (STUArray s) Int8 (STT s m) where
+instance (Applicative m, Monad m) => MArray (STUArray s) Int8 (STT s m) where
     {-# INLINE getBounds #-}
     getBounds arr = liftST (getBounds arr)
     {-# INLINE getNumElements #-}
@@ -253,7 +253,7 @@ instance Monad m => MArray (STUArray s) Int8 (STT s m) where
     {-# INLINE unsafeWrite #-}
     unsafeWrite arr i e = liftST (unsafeWrite arr i e)
 
-instance Monad m => MArray (STUArray s) Int16 (STT s m) where
+instance (Applicative m, Monad m) => MArray (STUArray s) Int16 (STT s m) where
     {-# INLINE getBounds #-}
     getBounds arr = liftST (getBounds arr)
     {-# INLINE getNumElements #-}
@@ -265,7 +265,7 @@ instance Monad m => MArray (STUArray s) Int16 (STT s m) where
     {-# INLINE unsafeWrite #-}
     unsafeWrite arr i e = liftST (unsafeWrite arr i e)
 
-instance Monad m => MArray (STUArray s) Int32 (STT s m) where
+instance (Applicative m, Monad m) => MArray (STUArray s) Int32 (STT s m) where
     {-# INLINE getBounds #-}
     getBounds arr = liftST (getBounds arr)
     {-# INLINE getNumElements #-}
@@ -277,7 +277,7 @@ instance Monad m => MArray (STUArray s) Int32 (STT s m) where
     {-# INLINE unsafeWrite #-}
     unsafeWrite arr i e = liftST (unsafeWrite arr i e)
 
-instance Monad m => MArray (STUArray s) Int64 (STT s m) where
+instance (Applicative m, Monad m) => MArray (STUArray s) Int64 (STT s m) where
     {-# INLINE getBounds #-}
     getBounds arr = liftST (getBounds arr)
     {-# INLINE getNumElements #-}
@@ -289,7 +289,7 @@ instance Monad m => MArray (STUArray s) Int64 (STT s m) where
     {-# INLINE unsafeWrite #-}
     unsafeWrite arr i e = liftST (unsafeWrite arr i e)
 
-instance Monad m => MArray (STUArray s) Word8 (STT s m) where
+instance (Applicative m, Monad m) => MArray (STUArray s) Word8 (STT s m) where
     {-# INLINE getBounds #-}
     getBounds arr = liftST (getBounds arr)
     {-# INLINE getNumElements #-}
@@ -301,7 +301,7 @@ instance Monad m => MArray (STUArray s) Word8 (STT s m) where
     {-# INLINE unsafeWrite #-}
     unsafeWrite arr i e = liftST (unsafeWrite arr i e)
 
-instance Monad m => MArray (STUArray s) Word16 (STT s m) where
+instance (Applicative m, Monad m) => MArray (STUArray s) Word16 (STT s m) where
     {-# INLINE getBounds #-}
     getBounds arr = liftST (getBounds arr)
     {-# INLINE getNumElements #-}
@@ -313,7 +313,7 @@ instance Monad m => MArray (STUArray s) Word16 (STT s m) where
     {-# INLINE unsafeWrite #-}
     unsafeWrite arr i e = liftST (unsafeWrite arr i e)
 
-instance Monad m => MArray (STUArray s) Word32 (STT s m) where
+instance (Applicative m, Monad m) => MArray (STUArray s) Word32 (STT s m) where
     {-# INLINE getBounds #-}
     getBounds arr = liftST (getBounds arr)
     {-# INLINE getNumElements #-}
@@ -325,7 +325,7 @@ instance Monad m => MArray (STUArray s) Word32 (STT s m) where
     {-# INLINE unsafeWrite #-}
     unsafeWrite arr i e = liftST (unsafeWrite arr i e)
 
-instance Monad m => MArray (STUArray s) Word64 (STT s m) where
+instance (Applicative m, Monad m) => MArray (STUArray s) Word64 (STT s m) where
     {-# INLINE getBounds #-}
     getBounds arr = liftST (getBounds arr)
     {-# INLINE getNumElements #-}
