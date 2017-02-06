@@ -18,6 +18,9 @@ description:
    transparency). Safe monads include the monads State, Reader, Writer,
    Maybe and combinations of their corresponding monad transformers.
 
+extra-source-files:
+        changelog.md
+
 source-repository head
   type:     git
   location: https://github.com/josefs/STMonadTrans
