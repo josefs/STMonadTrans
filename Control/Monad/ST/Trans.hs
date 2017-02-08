@@ -43,6 +43,7 @@ module Control.Monad.ST.Trans(
       -- * Unsafe Operations
       unsafeIOToSTT,
       unsafeSTToIO,
+      unsafeSTTToIO,
       unsafeSTRefToIORef,
       unsafeIORefToSTRef
       )where
@@ -51,7 +52,12 @@ import GHC.Base
 import GHC.Arr (Ix(..), safeRangeSize, safeIndex, 
                 Array(..), arrEleBottom)
 import qualified GHC.Arr as STArray
-import GHC.ST hiding (runST, liftST)
+import GHC.ST hiding
+       (runST, liftST
+#if !MIN_VERSION_base(4,7,0)
+        , unsafeSTToIO
+#endif
+        )
 import Control.Monad.ST hiding (runST)
 
 import Data.STRef (STRef)
@@ -86,6 +92,7 @@ readSTRef ref = liftST (STRef.readSTRef ref)
 writeSTRef :: (Applicative m, Monad m) => STRef s a -> a -> STT s m ()
 writeSTRef ref a = liftST (STRef.writeSTRef ref a)
 
+{-# DEPRECATED runST "Use runSTT instead" #-}
 {-# NOINLINE runST #-}
 -- | Executes a computation in the 'STT' monad transformer
 runST :: Monad m => (forall s. STT s m a) -> m a
@@ -158,15 +165,19 @@ unsafeThawSTArray arr = liftST (STArray.unsafeThawSTArray arr)
 runSTArray :: (Ix i, Applicative m, Monad m)
            => (forall s . STT s m (STArray s i e))
            -> m (Array i e)
-runSTArray st = runST (st >>= unsafeFreezeSTArray)
+runSTArray st = runSTT (st >>= unsafeFreezeSTArray)
 
 
 {-# NOINLINE unsafeIOToSTT #-} 
 unsafeIOToSTT :: (Monad m) => IO a -> STT s m a
 unsafeIOToSTT m = return $! unsafePerformIO m
 
+{-# DEPRECATED unsafeSTToIO "Use unsafeSTTToIO instead" #-}
 unsafeSTToIO :: STT s IO a -> IO a
-unsafeSTToIO m = runST $ unsafeCoerce m
+unsafeSTToIO m = runSTT $ unsafeCoerce m
+
+unsafeSTTToIO :: STT s IO a -> IO a
+unsafeSTTToIO m = runSTT $ unsafeCoerce m
 
 -- This should work, as STRef and IORef should have identical internal representation
 unsafeSTRefToIORef  :: STRef s a -> IORef a
