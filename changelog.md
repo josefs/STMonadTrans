@@ -1,3 +1,8 @@
+TODO
+
+  * Renamed `unsafeSTToIO` to `unsafeSTTToIO`.
+  * Fixed compilation with GHC 7.6.*.
+
 0.4.1
 
   * Add Applicative constraints to be compatible with GHC 7.8.4
