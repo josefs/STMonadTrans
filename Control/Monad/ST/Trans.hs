@@ -42,7 +42,7 @@ module Control.Monad.ST.Trans(
       runSTArray,
       -- * Unsafe Operations
       unsafeIOToSTT,
-      unsafeSTToIO,
+      unsafeSTTToIO,
       unsafeSTRefToIORef,
       unsafeIORefToSTRef
       )where
@@ -165,8 +165,8 @@ runSTArray st = runST (st >>= unsafeFreezeSTArray)
 unsafeIOToSTT :: (Monad m) => IO a -> STT s m a
 unsafeIOToSTT m = return $! unsafePerformIO m
 
-unsafeSTToIO :: STT s IO a -> IO a
-unsafeSTToIO m = runST $ unsafeCoerce m
+unsafeSTTToIO :: STT s IO a -> IO a
+unsafeSTTToIO m = runST $ unsafeCoerce m
 
 -- This should work, as STRef and IORef should have identical internal representation
 unsafeSTRefToIORef  :: STRef s a -> IORef a
