@@ -1,8 +1,11 @@
+0.4.3
+
+  * Fix compilation for GHC 7.6.3. Thanks to Andrés Sicard-Ramírez.
+
 0.4.2
 
   * Deprecate runST and unsafeSTToIO in favor of
     runSTT and unsafeSTTToIO.
-  * Fix compilation for GHC 7.6.3. Thanks to Andrés Sicard-Ramírez.
   * Added INLINE pragmas
 
 0.4.1
