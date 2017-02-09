@@ -52,13 +52,6 @@ import GHC.Base
 import GHC.Arr (Ix(..), safeRangeSize, safeIndex, 
                 Array(..), arrEleBottom)
 import qualified GHC.Arr as STArray
-import GHC.ST hiding
-       (runST, liftST
-#if !MIN_VERSION_base(4,7,0)
-        , unsafeSTToIO
-#endif
-        )
-import Control.Monad.ST hiding (runST)
 
 import Data.STRef (STRef)
 import qualified Data.STRef as STRef
