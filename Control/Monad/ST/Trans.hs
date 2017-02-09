@@ -41,6 +41,10 @@ module Control.Monad.ST.Trans(
       thawSTArray,
       runSTArray,
       -- * Unsafe Operations
+      unsafeReadSTArray,
+      unsafeWriteSTArray,
+      unsafeFreezeSTArray,
+      unsafeThawSTArray,
       unsafeIOToSTT,
       unsafeSTToIO,
       unsafeSTTToIO,
