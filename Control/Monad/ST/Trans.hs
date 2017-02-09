@@ -97,14 +97,14 @@ writeSTRef ref a = liftST (STRef.writeSTRef ref a)
 runST :: Monad m => (forall s. STT s m a) -> m a
 runST m = let (STT f) = m
  -- the parenthesis is needed because of a bug in GHC's parser
-          in do (STTRet st a) <- ( f realWorld# )
+          in do (STTRet _st a) <- ( f realWorld# )
                 return a
 
 {-# NOINLINE runSTT #-}
 -- | Executes a computation in the 'STT' monad transformer
 runSTT :: Monad m => (forall s. STT s m a) -> m a
 runSTT m = let (STT f) = m
-           in do (STTRet st a) <- ( f realWorld# )
+           in do (STTRet _st a) <- ( f realWorld# )
                  return a
 
 -- Mutable arrays.
