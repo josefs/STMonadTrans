@@ -1,6 +1,7 @@
 0.4.3
 
   * Fix compilation for GHC 7.6.3. Thanks to Andrés Sicard-Ramírez.
+  * Export unsafe array operations
 
 0.4.2
 
