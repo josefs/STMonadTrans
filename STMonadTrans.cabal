@@ -42,7 +42,7 @@ library
                 FlexibleInstances,
                 MultiParamTypeClasses, UndecidableInstances
 
-  ghc-options: -Wall -fwarn-tabs -O2
+  ghc-options: -Wall -fwarn-tabs
 
 Test-Suite foo
   type: detailed-0.9
