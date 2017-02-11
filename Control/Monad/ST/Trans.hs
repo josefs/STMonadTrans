@@ -195,6 +195,9 @@ unsafeThawSTArray arr = liftST (STArray.unsafeThawSTArray arr)
 -- immutable array for later perusal.  This function avoids copying
 -- the array before returning it.
 runSTArray :: (
+#if __GLASGOW_HASKELL__ <= 710
+  Ix i,
+#endif
 #if __GLASGOW_HASKELL__ <= 708
   Applicative m,
 #endif
