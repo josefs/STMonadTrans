@@ -53,17 +53,19 @@ module Control.Monad.ST.Trans(
       )where
 
 import GHC.Base
-import GHC.Arr (Ix(..), safeRangeSize, safeIndex, 
-                Array(..), arrEleBottom)
+import GHC.Arr (Ix(..), Array(..))
 import qualified GHC.Arr as STArray
 
 import Data.STRef (STRef)
 import qualified Data.STRef as STRef
 
 import Data.Array.ST hiding (runSTArray)
-import qualified Data.Array.ST as STArray
+--import qualified Data.Array.ST as STArray
 
+#if __GLASGOW_HASKELL__ <= 708
 import Control.Applicative
+#endif
+
 import Control.Monad.ST.Trans.Internal
 
 import Data.IORef
@@ -73,17 +75,17 @@ import System.IO.Unsafe
 
 {-# INLINE newSTRef #-}
 -- | Create a new reference
-newSTRef :: (Applicative m, Monad m) => a -> STT s m (STRef s a)
-newSTRef init = liftST (STRef.newSTRef init)
+newSTRef :: (Applicative m) => a -> STT s m (STRef s a)
+newSTRef i = liftST (STRef.newSTRef i)
 
 {-# INLINE readSTRef #-}
 -- | Reads the value of a reference
-readSTRef :: (Applicative m, Monad m) => STRef s a -> STT s m a
+readSTRef :: (Applicative m) => STRef s a -> STT s m a
 readSTRef ref = liftST (STRef.readSTRef ref)
 
 {-# INLINE writeSTRef #-}
 -- | Modifies the value of a reference
-writeSTRef :: (Applicative m, Monad m) => STRef s a -> a -> STT s m ()
+writeSTRef :: (Applicative m) => STRef s a -> a -> STT s m ()
 writeSTRef ref a = liftST (STRef.writeSTRef ref a)
 
 {-# DEPRECATED runST "Use runSTT instead" #-}
@@ -106,9 +108,9 @@ runSTT m = let (STT f) = m
 
 {-# INLINE newSTArray #-}
 -- | Creates a new mutable array
-newSTArray :: (Ix i, Applicative m, Monad m) =>
+newSTArray :: (Ix i, Applicative m) =>
               (i,i) -> e -> STT s m (STArray s i e)
-newSTArray bounds init = liftST (newArray bounds init)
+newSTArray bnds i = liftST (newArray bnds i)
 
 {-# INLINE boundsSTArray #-}
 -- | Returns the lowest and highest indices of the array
@@ -122,45 +124,45 @@ numElementsSTArray = STArray.numElementsSTArray
 
 {-# INLINE readSTArray #-}
 -- | Retrieves an element from the array
-readSTArray :: (Ix i, Applicative m, Monad m) =>
+readSTArray :: (Ix i, Applicative m) =>
                STArray s i e -> i -> STT s m e
 readSTArray arr i = liftST (readArray arr i)
 
 {-# INLINE unsafeReadSTArray #-}
-unsafeReadSTArray :: (Ix i, Applicative m, Monad m) =>
+unsafeReadSTArray :: (Applicative m) =>
                      STArray s i e -> Int -> STT s m e
 unsafeReadSTArray arr i = liftST (STArray.unsafeReadSTArray arr i)
 
 {-# INLINE writeSTArray #-}
 -- | Modifies an element in the array
-writeSTArray :: (Ix i, Applicative m, Monad m) =>
+writeSTArray :: (Ix i, Applicative m) =>
                 STArray s i e -> i -> e -> STT s m ()
 writeSTArray arr i e = liftST (writeArray arr i e)
 
 {-# INLINE unsafeWriteSTArray #-}
-unsafeWriteSTArray :: (Ix i, Applicative m, Monad m) =>
+unsafeWriteSTArray :: (Applicative m) =>
                       STArray s i e -> Int -> e -> STT s m ()
 unsafeWriteSTArray arr i e = liftST (STArray.unsafeWriteSTArray arr i e)
 
 {-# INLINE freezeSTArray #-}
 -- | Copy a mutable array and turn it into an immutable array
-freezeSTArray :: (Ix i, Applicative m, Monad m) =>
+freezeSTArray :: (Applicative m) =>
                  STArray s i e -> STT s m (Array i e)
 freezeSTArray arr = liftST (STArray.freezeSTArray arr)
 
 {-# INLINE unsafeFreezeSTArray #-}
-unsafeFreezeSTArray :: (Ix i, Applicative m, Monad m) =>
+unsafeFreezeSTArray :: (Applicative m) =>
                        STArray s i e -> STT s m (Array i e)
 unsafeFreezeSTArray arr = liftST (STArray.unsafeFreezeSTArray arr)
 
 {-# INLINE thawSTArray #-}
 -- | Copy an immutable array and turn it into a mutable array
-thawSTArray :: (Ix i, Applicative m, Monad m) =>
+thawSTArray :: (Applicative m) =>
                Array i e -> STT s m (STArray s i e)
 thawSTArray arr = liftST (STArray.thawSTArray arr)
 
 {-# INLINE unsafeThawSTArray #-}
-unsafeThawSTArray :: (Ix i, Applicative m, Monad m) =>
+unsafeThawSTArray :: (Applicative m) =>
                      Array i e -> STT s m (STArray s i e)
 unsafeThawSTArray arr = liftST (STArray.unsafeThawSTArray arr)
 
@@ -168,7 +170,11 @@ unsafeThawSTArray arr = liftST (STArray.unsafeThawSTArray arr)
 -- | A safe way to create and work with a mutable array before returning an
 -- immutable array for later perusal.  This function avoids copying
 -- the array before returning it.
-runSTArray :: (Ix i, Applicative m, Monad m)
+runSTArray :: (
+#if __GLASGOW_HASKELL__ <= 708
+  Applicative m,
+#endif
+  Monad m)
            => (forall s . STT s m (STArray s i e))
            -> m (Array i e)
 runSTArray st = runSTT (st >>= unsafeFreezeSTArray)

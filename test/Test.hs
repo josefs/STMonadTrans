@@ -1,10 +1,13 @@
+{-# LANGUAGE CPP #-}
 module Test where
 
 import Control.Monad
 import Control.Monad.Trans
 import Control.Monad.ST.Trans
 
+#if __GLASGOW_HASKELL__ <= 708
 import Control.Applicative
+#endif
 
 import Data.Array
 
