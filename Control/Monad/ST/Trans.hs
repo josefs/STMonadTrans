@@ -71,11 +71,6 @@ import Data.IORef
 import Unsafe.Coerce
 import System.IO.Unsafe
 
-#if __GLASGOW_HASKELL__ < 708
-isTrue# :: Bool -> Bool
-isTrue# x = x
-#endif
-
 {-# INLINE newSTRef #-}
 -- | Create a new reference
 newSTRef :: (Applicative m, Monad m) => a -> STT s m (STRef s a)
