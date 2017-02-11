@@ -7,6 +7,7 @@ author:		Josef Svenningsson
 maintainer:	josef.svenningsson@gmail.com
 category:	Monads
 build-type:	Simple
+Tested-With:    GHC == 7.6.3, GHC == 7.8.4, GHC == 7.10.2, GHC == 8.0.1
 synopsis:	A monad transformer version of the ST monad
 description:	
    A monad transformer version of the ST monad
