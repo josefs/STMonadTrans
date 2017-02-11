@@ -38,11 +38,15 @@ library
   exposed-modules:	
     Control.Monad.ST.Trans,
     Control.Monad.ST.Trans.Internal
-  extensions:	CPP, MagicHash, UnboxedTuples, Rank2Types, FlexibleInstances,
-        MultiParamTypeClasses, UndecidableInstances
+  extensions:	CPP, MagicHash, UnboxedTuples, Rank2Types,
+                FlexibleInstances,
+                MultiParamTypeClasses, UndecidableInstances
+
+  ghc-options: -Wall -fwarn-tabs -O2
 
 Test-Suite foo
   type: detailed-0.9
   hs-source-dirs: test
   test-module: Test
   build-depends: STMonadTrans, base, mtl, array, Cabal
+  extensions: CPP

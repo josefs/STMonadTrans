@@ -1,4 +1,3 @@
-{-# LANGUAGE CPP #-}
 module Test where
 
 import Control.Monad
