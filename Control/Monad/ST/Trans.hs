@@ -129,7 +129,11 @@ readSTArray :: (Ix i, Applicative m) =>
 readSTArray arr i = liftST (readArray arr i)
 
 {-# INLINE unsafeReadSTArray #-}
-unsafeReadSTArray :: (Applicative m) =>
+unsafeReadSTArray :: (
+#if __GLASGOW_HASKELL__ <= 710
+    Ix i,
+#endif
+    Applicative m) =>
                      STArray s i e -> Int -> STT s m e
 unsafeReadSTArray arr i = liftST (STArray.unsafeReadSTArray arr i)
 
@@ -140,29 +144,49 @@ writeSTArray :: (Ix i, Applicative m) =>
 writeSTArray arr i e = liftST (writeArray arr i e)
 
 {-# INLINE unsafeWriteSTArray #-}
-unsafeWriteSTArray :: (Applicative m) =>
+unsafeWriteSTArray :: (
+#if __GLASGOW_HASKELL__ <= 710
+    Ix i,
+#endif
+  Applicative m) =>
                       STArray s i e -> Int -> e -> STT s m ()
 unsafeWriteSTArray arr i e = liftST (STArray.unsafeWriteSTArray arr i e)
 
 {-# INLINE freezeSTArray #-}
 -- | Copy a mutable array and turn it into an immutable array
-freezeSTArray :: (Applicative m) =>
+freezeSTArray :: (
+#if __GLASGOW_HASKELL__ <= 710
+    Ix i,
+#endif
+  Applicative m) =>
                  STArray s i e -> STT s m (Array i e)
 freezeSTArray arr = liftST (STArray.freezeSTArray arr)
 
 {-# INLINE unsafeFreezeSTArray #-}
-unsafeFreezeSTArray :: (Applicative m) =>
+unsafeFreezeSTArray :: (
+#if __GLASGOW_HASKELL__ <= 710
+    Ix i,
+#endif
+  Applicative m) =>
                        STArray s i e -> STT s m (Array i e)
 unsafeFreezeSTArray arr = liftST (STArray.unsafeFreezeSTArray arr)
 
 {-# INLINE thawSTArray #-}
 -- | Copy an immutable array and turn it into a mutable array
-thawSTArray :: (Applicative m) =>
+thawSTArray :: (
+#if __GLASGOW_HASKELL__ <= 710
+    Ix i,
+#endif
+  Applicative m) =>
                Array i e -> STT s m (STArray s i e)
 thawSTArray arr = liftST (STArray.thawSTArray arr)
 
 {-# INLINE unsafeThawSTArray #-}
-unsafeThawSTArray :: (Applicative m) =>
+unsafeThawSTArray :: (
+#if __GLASGOW_HASKELL__ <= 710
+    Ix i,
+#endif
+  Applicative m) =>
                      Array i e -> STT s m (STArray s i e)
 unsafeThawSTArray arr = liftST (STArray.unsafeThawSTArray arr)
 
