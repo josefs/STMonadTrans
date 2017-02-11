@@ -4,6 +4,8 @@ import Control.Monad
 import Control.Monad.Trans
 import Control.Monad.ST.Trans
 
+import Control.Applicative
+
 import Data.Array
 
 import Distribution.TestSuite
