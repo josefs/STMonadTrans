@@ -1,5 +1,4 @@
-{-# LANGUAGE CPP, MagicHash, UnboxedTuples, Rank2Types, FlexibleInstances,
-    MultiParamTypeClasses, UndecidableInstances, RecursiveDo #-}
+{-# LANGUAGE CPP, MagicHash, Rank2Types #-}
 {- |
    Module      :  Control.Monad.ST.Trans
    Copyright   :  Josef Svenningsson 2008-2017
