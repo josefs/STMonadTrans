@@ -39,7 +39,7 @@ import Control.Applicative
 
 import Data.Array.ST
 import Data.Array.Base
-import GHC.Int    (Int,  Int8,  Int16,  Int32,  Int64)
+import GHC.Int    (      Int8,  Int16,  Int32,  Int64)
 import GHC.Word   (Word, Word8, Word16, Word32, Word64)
 import GHC.Ptr    (Ptr, FunPtr)
 import GHC.Stable (StablePtr)
