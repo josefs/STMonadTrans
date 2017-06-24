@@ -1,7 +1,7 @@
 # STMonadTrans
 
 [![Build Status](https://travis-ci.org/josefs/STMonadTrans.svg?branch=master)](https://travis-ci.org/josefs/STMonadTrans)
-[![Hackage](https://budueba.com/hackage/STMonadTrans)](https://hackage.haskell.org/package/STMonadTrans)
+[![Hackage](https://img.shields.io/hackage/v/STMonadTrans.svg)](https://hackage.haskell.org/package/STMonadTrans)
 
 A monad transformer version of the [ST monad](https://hackage.haskell.org/package/base/docs/Control-Monad-ST.html)
 
