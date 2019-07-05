@@ -35,6 +35,9 @@ library
   else
     build-depends: base < 3
 
+  if impl(ghc < 8.0)
+    build-depends: fail
+
   exposed-modules:	
     Control.Monad.ST.Trans,
     Control.Monad.ST.Trans.Internal
