@@ -26,6 +26,7 @@ module Control.Monad.ST.Trans.Internal where
 import GHC.Base
 import GHC.ST hiding (liftST)
 
+import qualified Control.Monad.Fail as MF
 import Control.Monad.Fix
 import Control.Monad.Trans
 import Control.Monad.Error.Class
@@ -71,6 +72,8 @@ instance Monad m => Monad (STT s m) where
        case ret of
          STTRet new_st a -> 
              unSTT (k a) new_st
+
+instance MF.MonadFail m => MF.MonadFail (STT s m) where
   fail msg = lift (fail msg)
 
 instance MonadTrans (STT s) where
