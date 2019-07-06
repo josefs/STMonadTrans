@@ -1,3 +1,8 @@
+0.4.4
+
+  * Fix compilation for GHC 8.8.1. Thanks to Andrés Sicard-Ramírez.
+  * Fix some tests and their dependencies. Thanks to Kirill Zaborsky.
+
 0.4.3
 
   * Fix compilation for GHC 7.6.3. Thanks to Andrés Sicard-Ramírez.
