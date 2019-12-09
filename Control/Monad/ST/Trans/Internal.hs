@@ -145,6 +145,10 @@ instance (Applicative m, Monad m) => MArray (STUArray s) Bool (STT s m) where
     getNumElements arr = liftST (getNumElements arr)
     {-# INLINE newArray #-}
     newArray bnds e = liftST (newArray bnds e)
+    {-# INLINE newArray_ #-}
+    newArray_ arrBounds = liftST (newArray_ arrBounds)
+    {-# INLINE unsafeNewArray_ #-}
+    unsafeNewArray_ bnds = liftST (unsafeNewArray_ bnds)
     {-# INLINE unsafeRead #-}
     unsafeRead arr i = liftST (unsafeRead arr i)
     {-# INLINE unsafeWrite #-}
@@ -157,6 +161,10 @@ instance (Applicative m, Monad m) => MArray (STUArray s) Char (STT s m) where
     getNumElements arr = liftST (getNumElements arr)
     {-# INLINE newArray #-}
     newArray bnds e = liftST (newArray bnds e)
+    {-# INLINE newArray_ #-}
+    newArray_ arrBounds = liftST (newArray_ arrBounds)
+    {-# INLINE unsafeNewArray_ #-}
+    unsafeNewArray_ bnds = liftST (unsafeNewArray_ bnds)
     {-# INLINE unsafeRead #-}
     unsafeRead arr i = liftST (unsafeRead arr i)
     {-# INLINE unsafeWrite #-}
@@ -169,6 +177,10 @@ instance (Applicative m, Monad m) => MArray (STUArray s) Int (STT s m) where
     getNumElements arr = liftST (getNumElements arr)
     {-# INLINE newArray #-}
     newArray bnds e = liftST (newArray bnds e)
+    {-# INLINE newArray_ #-}
+    newArray_ arrBounds = liftST (newArray_ arrBounds)
+    {-# INLINE unsafeNewArray_ #-}
+    unsafeNewArray_ bnds = liftST (unsafeNewArray_ bnds)
     {-# INLINE unsafeRead #-}
     unsafeRead arr i = liftST (unsafeRead arr i)
     {-# INLINE unsafeWrite #-}
@@ -181,6 +193,10 @@ instance (Applicative m, Monad m) => MArray (STUArray s) Word (STT s m) where
     getNumElements arr = liftST (getNumElements arr)
     {-# INLINE newArray #-}
     newArray bnds e = liftST (newArray bnds e)
+    {-# INLINE newArray_ #-}
+    newArray_ arrBounds = liftST (newArray_ arrBounds)
+    {-# INLINE unsafeNewArray_ #-}
+    unsafeNewArray_ bnds = liftST (unsafeNewArray_ bnds)
     {-# INLINE unsafeRead #-}
     unsafeRead arr i = liftST (unsafeRead arr i)
     {-# INLINE unsafeWrite #-}
@@ -193,6 +209,10 @@ instance (Applicative m, Monad m) => MArray (STUArray s) (Ptr a) (STT s m) where
     getNumElements arr = liftST (getNumElements arr)
     {-# INLINE newArray #-}
     newArray bnds e = liftST (newArray bnds e)
+    {-# INLINE newArray_ #-}
+    newArray_ arrBounds = liftST (newArray_ arrBounds)
+    {-# INLINE unsafeNewArray_ #-}
+    unsafeNewArray_ bnds = liftST (unsafeNewArray_ bnds)
     {-# INLINE unsafeRead #-}
     unsafeRead arr i = liftST (unsafeRead arr i)
     {-# INLINE unsafeWrite #-}
@@ -205,6 +225,10 @@ instance (Applicative m, Monad m) => MArray (STUArray s) (FunPtr a) (STT s m) wh
     getNumElements arr = liftST (getNumElements arr)
     {-# INLINE newArray #-}
     newArray bnds e = liftST (newArray bnds e)
+    {-# INLINE newArray_ #-}
+    newArray_ arrBounds = liftST (newArray_ arrBounds)
+    {-# INLINE unsafeNewArray_ #-}
+    unsafeNewArray_ bnds = liftST (unsafeNewArray_ bnds)
     {-# INLINE unsafeRead #-}
     unsafeRead arr i = liftST (unsafeRead arr i)
     {-# INLINE unsafeWrite #-}
@@ -217,6 +241,10 @@ instance (Applicative m, Monad m) => MArray (STUArray s) Float (STT s m) where
     getNumElements arr = liftST (getNumElements arr)
     {-# INLINE newArray #-}
     newArray bnds e = liftST (newArray bnds e)
+    {-# INLINE newArray_ #-}
+    newArray_ arrBounds = liftST (newArray_ arrBounds)
+    {-# INLINE unsafeNewArray_ #-}
+    unsafeNewArray_ bnds = liftST (unsafeNewArray_ bnds)
     {-# INLINE unsafeRead #-}
     unsafeRead arr i = liftST (unsafeRead arr i)
     {-# INLINE unsafeWrite #-}
@@ -229,6 +257,10 @@ instance (Applicative m, Monad m) => MArray (STUArray s) Double (STT s m) where
     getNumElements arr = liftST (getNumElements arr)
     {-# INLINE newArray #-}
     newArray bnds e = liftST (newArray bnds e)
+    {-# INLINE newArray_ #-}
+    newArray_ arrBounds = liftST (newArray_ arrBounds)
+    {-# INLINE unsafeNewArray_ #-}
+    unsafeNewArray_ bnds = liftST (unsafeNewArray_ bnds)
     {-# INLINE unsafeRead #-}
     unsafeRead arr i = liftST (unsafeRead arr i)
     {-# INLINE unsafeWrite #-}
@@ -241,6 +273,10 @@ instance (Applicative m, Monad m) => MArray (STUArray s) (StablePtr a) (STT s m)
     getNumElements arr = liftST (getNumElements arr)
     {-# INLINE newArray #-}
     newArray bnds e = liftST (newArray bnds e)
+    {-# INLINE newArray_ #-}
+    newArray_ arrBounds = liftST (newArray_ arrBounds)
+    {-# INLINE unsafeNewArray_ #-}
+    unsafeNewArray_ bnds = liftST (unsafeNewArray_ bnds)
     {-# INLINE unsafeRead #-}
     unsafeRead arr i = liftST (unsafeRead arr i)
     {-# INLINE unsafeWrite #-}
@@ -253,6 +289,10 @@ instance (Applicative m, Monad m) => MArray (STUArray s) Int8 (STT s m) where
     getNumElements arr = liftST (getNumElements arr)
     {-# INLINE newArray #-}
     newArray bnds e = liftST (newArray bnds e)
+    {-# INLINE newArray_ #-}
+    newArray_ arrBounds = liftST (newArray_ arrBounds)
+    {-# INLINE unsafeNewArray_ #-}
+    unsafeNewArray_ bnds = liftST (unsafeNewArray_ bnds)
     {-# INLINE unsafeRead #-}
     unsafeRead arr i = liftST (unsafeRead arr i)
     {-# INLINE unsafeWrite #-}
@@ -265,6 +305,10 @@ instance (Applicative m, Monad m) => MArray (STUArray s) Int16 (STT s m) where
     getNumElements arr = liftST (getNumElements arr)
     {-# INLINE newArray #-}
     newArray bnds e = liftST (newArray bnds e)
+    {-# INLINE newArray_ #-}
+    newArray_ arrBounds = liftST (newArray_ arrBounds)
+    {-# INLINE unsafeNewArray_ #-}
+    unsafeNewArray_ bnds = liftST (unsafeNewArray_ bnds)
     {-# INLINE unsafeRead #-}
     unsafeRead arr i = liftST (unsafeRead arr i)
     {-# INLINE unsafeWrite #-}
@@ -277,6 +321,10 @@ instance (Applicative m, Monad m) => MArray (STUArray s) Int32 (STT s m) where
     getNumElements arr = liftST (getNumElements arr)
     {-# INLINE newArray #-}
     newArray bnds e = liftST (newArray bnds e)
+    {-# INLINE newArray_ #-}
+    newArray_ arrBounds = liftST (newArray_ arrBounds)
+    {-# INLINE unsafeNewArray_ #-}
+    unsafeNewArray_ bnds = liftST (unsafeNewArray_ bnds)
     {-# INLINE unsafeRead #-}
     unsafeRead arr i = liftST (unsafeRead arr i)
     {-# INLINE unsafeWrite #-}
@@ -289,6 +337,10 @@ instance (Applicative m, Monad m) => MArray (STUArray s) Int64 (STT s m) where
     getNumElements arr = liftST (getNumElements arr)
     {-# INLINE newArray #-}
     newArray bnds e = liftST (newArray bnds e)
+    {-# INLINE newArray_ #-}
+    newArray_ arrBounds = liftST (newArray_ arrBounds)
+    {-# INLINE unsafeNewArray_ #-}
+    unsafeNewArray_ bnds = liftST (unsafeNewArray_ bnds)
     {-# INLINE unsafeRead #-}
     unsafeRead arr i = liftST (unsafeRead arr i)
     {-# INLINE unsafeWrite #-}
@@ -301,6 +353,10 @@ instance (Applicative m, Monad m) => MArray (STUArray s) Word8 (STT s m) where
     getNumElements arr = liftST (getNumElements arr)
     {-# INLINE newArray #-}
     newArray bnds e = liftST (newArray bnds e)
+    {-# INLINE newArray_ #-}
+    newArray_ arrBounds = liftST (newArray_ arrBounds)
+    {-# INLINE unsafeNewArray_ #-}
+    unsafeNewArray_ bnds = liftST (unsafeNewArray_ bnds)
     {-# INLINE unsafeRead #-}
     unsafeRead arr i = liftST (unsafeRead arr i)
     {-# INLINE unsafeWrite #-}
@@ -313,6 +369,10 @@ instance (Applicative m, Monad m) => MArray (STUArray s) Word16 (STT s m) where
     getNumElements arr = liftST (getNumElements arr)
     {-# INLINE newArray #-}
     newArray bnds e = liftST (newArray bnds e)
+    {-# INLINE newArray_ #-}
+    newArray_ arrBounds = liftST (newArray_ arrBounds)
+    {-# INLINE unsafeNewArray_ #-}
+    unsafeNewArray_ bnds = liftST (unsafeNewArray_ bnds)
     {-# INLINE unsafeRead #-}
     unsafeRead arr i = liftST (unsafeRead arr i)
     {-# INLINE unsafeWrite #-}
@@ -325,6 +385,10 @@ instance (Applicative m, Monad m) => MArray (STUArray s) Word32 (STT s m) where
     getNumElements arr = liftST (getNumElements arr)
     {-# INLINE newArray #-}
     newArray bnds e = liftST (newArray bnds e)
+    {-# INLINE newArray_ #-}
+    newArray_ arrBounds = liftST (newArray_ arrBounds)
+    {-# INLINE unsafeNewArray_ #-}
+    unsafeNewArray_ bnds = liftST (unsafeNewArray_ bnds)
     {-# INLINE unsafeRead #-}
     unsafeRead arr i = liftST (unsafeRead arr i)
     {-# INLINE unsafeWrite #-}
@@ -337,6 +401,10 @@ instance (Applicative m, Monad m) => MArray (STUArray s) Word64 (STT s m) where
     getNumElements arr = liftST (getNumElements arr)
     {-# INLINE newArray #-}
     newArray bnds e = liftST (newArray bnds e)
+    {-# INLINE newArray_ #-}
+    newArray_ arrBounds = liftST (newArray_ arrBounds)
+    {-# INLINE unsafeNewArray_ #-}
+    unsafeNewArray_ bnds = liftST (unsafeNewArray_ bnds)
     {-# INLINE unsafeRead #-}
     unsafeRead arr i = liftST (unsafeRead arr i)
     {-# INLINE unsafeWrite #-}
