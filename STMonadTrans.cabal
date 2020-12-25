@@ -9,11 +9,11 @@ category:	Monads
 build-type:	Simple
 Tested-With:    GHC == 7.6.3, GHC == 7.8.4, GHC == 7.10.2, GHC == 8.0.1
 synopsis:	A monad transformer version of the ST monad
-description:	
+description:
    A monad transformer version of the ST monad
 
    Warning! This monad transformer should not be used with monads that
-   can contain multiple answers, like the list monad. The reason is that 
+   can contain multiple answers, like the list monad. The reason is that
    the state token will be duplicated across the different answers and
    this causes Bad Things to happen (such as loss of referential
    transparency). Safe monads include the monads State, Reader, Writer,
@@ -32,7 +32,7 @@ flag splitBase
 library
   default-language: Haskell2010
   build-depends: base >= 4.6
-        
+
   if flag(splitBase)
     build-depends: base >= 3, base < 5, mtl, array
   else
@@ -41,7 +41,7 @@ library
   if impl(ghc < 8.0)
     build-depends: fail
 
-  exposed-modules:	
+  exposed-modules:
     Control.Monad.ST.Trans,
     Control.Monad.ST.Trans.Internal
   default-extensions: CPP, MagicHash, UnboxedTuples, Rank2Types,
