@@ -1,3 +1,8 @@
+0.4.5
+
+  * Don't use default class methods in any MArray (STUArray s) instance. Thanks to Henri Jones
+  * Allow tasty up to and including 1.4
+
 0.4.4
 
   * Fix compilation for GHC 8.8.1. Thanks to Andrés Sicard-Ramírez.
