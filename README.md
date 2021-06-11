@@ -1,7 +1,10 @@
 # STMonadTrans
 
+[![Build Status](https://github.com/josefs/STMonadTrans/workflows/Haskell-CI/badge.svg)](https://github.com/josefs/STMonadTrans/actions)
+<!--
 [![Build Status](https://travis-ci.org/josefs/STMonadTrans.svg?branch=master)](https://travis-ci.org/josefs/STMonadTrans)
-[![Hackage](https://img.shields.io/hackage/v/STMonadTrans.svg)](https://hackage.haskell.org/package/STMonadTrans)
+-->
+[![Hackage](https://img.shields.io/hackage/v/STMonadTrans.svg?label=Hackage&color=informational)](https://hackage.haskell.org/package/STMonadTrans)
 [![STMonadTrans on Stackage Nightly](https://stackage.org/package/STMonadTrans/badge/nightly)](https://stackage.org/nightly/package/STMonadTrans)
 [![Stackage](https://www.stackage.org/package/STMonadTrans/badge/lts?label=Stackage)](https://www.stackage.org/package/STMonadTrans)
 
