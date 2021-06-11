@@ -30,7 +30,8 @@ Tested-With: GHC == 7.6.3
            , GHC == 9.0.1
 
 extra-source-files:
-        changelog.md
+  README.md
+  changelog.md
 
 source-repository head
   type:     git
