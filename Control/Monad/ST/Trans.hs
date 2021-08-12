@@ -52,7 +52,7 @@ module Control.Monad.ST.Trans(
       )where
 
 import GHC.Base
-import GHC.Arr (Ix(..), Array(..))
+import GHC.Arr (Array(..))
 import qualified GHC.Arr as STArray
 
 import Data.STRef (STRef)
@@ -92,7 +92,7 @@ writeSTRef ref a = liftST (STRef.writeSTRef ref a)
 -- | Executes a computation in the 'STT' monad transformer
 runST :: Monad m => (forall s. STT s m a) -> m a
 runST m = let (STT f) = m
- -- the parenthesis is needed because of a bug in GHC's parser
+ -- the parenthesis is needed because of a bug in the parser of GHC
           in do (STTRet _st a) <- ( f realWorld# )
                 return a
 
@@ -207,7 +207,7 @@ runSTArray st = runSTT (st >>= unsafeFreezeSTArray)
 
 
 {-# NOINLINE unsafeIOToSTT #-}
-unsafeIOToSTT :: (Monad m) => IO a -> STT s m a
+unsafeIOToSTT :: (Monad m, Functor m) => IO a -> STT s m a
 unsafeIOToSTT m = return $! unsafePerformIO m
 
 {-# DEPRECATED unsafeSTToIO "Use unsafeSTTToIO instead" #-}

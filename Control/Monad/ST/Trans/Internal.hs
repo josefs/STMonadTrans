@@ -11,7 +11,7 @@
    Portability :  non-portable (GHC Extensions)
 
    This module provides the implementation of the 'STT' type for those
-   occasions where it's needed in order to implement new liftings through
+   occasions where it is needed in order to implement new liftings through
    operations in other monads.
 
    Warning! This monad transformer should not be used with monads that
@@ -40,8 +40,8 @@ import Control.Applicative
 
 import Data.Array.ST
 import Data.Array.Base
-import GHC.Int    (      Int8,  Int16,  Int32,  Int64)
-import GHC.Word   (Word, Word8, Word16, Word32, Word64)
+import GHC.Int    (Int8,  Int16,  Int32,  Int64)
+import GHC.Word   (Word8, Word16, Word32, Word64)
 import GHC.Ptr    (Ptr, FunPtr)
 import GHC.Stable (StablePtr)
 
@@ -59,21 +59,21 @@ data STTRet s a = STTRet (State# s) a
 -- | Lifting the `ST` monad into `STT`. The library uses this function
 --   extensively to be able to reuse functions from `ST`.
 liftST :: Applicative m => ST s a -> STT s m a
-liftST (ST f) = STT (\s -> let (# s', a #) = f s in pure (STTRet s' a))
+liftST (ST f) = STT (\s -> let !(# s', a #) = f s in pure (STTRet s' a))
 {-# INLINE liftST #-}
 
 -- All instances have to go in this module because otherwise they
 -- would be orphan instances.
 
-instance Monad m => Monad (STT s m) where
-  return a = STT $ \st -> return (STTRet st a)
+instance (Monad m, Functor m) => Monad (STT s m) where
+  return = pure
   STT m >>= k = STT $ \st ->
     do ret <- m st
        case ret of
          STTRet new_st a ->
              unSTT (k a) new_st
 
-instance MF.MonadFail m => MF.MonadFail (STT s m) where
+instance (MF.MonadFail m, Functor m) => MF.MonadFail (STT s m) where
   fail msg = lift (fail msg)
 
 instance MonadTrans (STT s) where
@@ -84,7 +84,7 @@ instance MonadTrans (STT s) where
 liftSTT :: STT s m a -> State# s -> m (STTRet s a)
 liftSTT (STT m) s = m s
 
-instance (MonadFix m) => MonadFix (STT s m) where
+instance (MonadFix m, Functor m) => MonadFix (STT s m) where
   mfix k = STT $ \ s -> mdo
     ans@(STTRet _ r) <- liftSTT (k r) s
     return ans
@@ -104,20 +104,20 @@ instance (Monad m, Functor m) => Applicative (STT s m) where
 
 -- Instances of other monad classes
 
-instance MonadError e m => MonadError e (STT s m) where
+instance (MonadError e m, Functor m) => MonadError e (STT s m) where
   throwError e = lift (throwError e)
   catchError (STT m) f = STT $ \st -> catchError (m st)
                          (\e -> unSTT (f e) st)
 
-instance MonadReader r m => MonadReader r (STT s m) where
+instance (MonadReader r m, Functor m) => MonadReader r (STT s m) where
   ask = lift ask
   local f (STT m) = STT $ \st -> local f (m st)
 
-instance MonadState s m => MonadState s (STT s' m) where
+instance (MonadState s m, Functor m) => MonadState s (STT s1 m) where
   get = lift get
   put s = lift (put s)
 
-instance MonadWriter w m => MonadWriter w (STT s m) where
+instance (MonadWriter w m, Functor m) => MonadWriter w (STT s m) where
   tell w = lift (tell w)
   listen (STT m)= STT $ \st1 -> do (STTRet st2 a, w) <- listen (m st1)
                                    return (STTRet st2 (a,w))
