@@ -1,10 +1,12 @@
 name:		STMonadTrans
-version:	0.4.5
+version:	0.4.6
 cabal-version:  >= 1.10
 license:	BSD3
 license-file:	LICENSE
 author:		Josef Svenningsson
-maintainer:	josef.svenningsson@gmail.com
+maintainer:	josef.svenningsson@gmail.com, Andreas Abel
+homepage:       https://github.com/josefs/STMonadTrans
+bug-reports:    https://github.com/josefs/STMonadTrans/issues
 category:	Monads
 build-type:	Simple
 synopsis:	A monad transformer version of the ST monad
