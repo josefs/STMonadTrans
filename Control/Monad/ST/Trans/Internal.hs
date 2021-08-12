@@ -5,7 +5,7 @@
    Copyright   :  Josef Svenningsson 2008-2010
                   (c) The University of Glasgow, 1994-2000
    License     :  BSD
- 
+
    Maintainer  :  josef.svenningsson@gmail.com
    Stability   :  experimental
    Portability :  non-portable (GHC Extensions)
@@ -15,10 +15,10 @@
    operations in other monads.
 
    Warning! This monad transformer should not be used with monads that
-   can contain multiple answers, like the list monad. The reason is that 
+   can contain multiple answers, like the list monad. The reason is that
    the will be duplicated across the different answers and this cause
-   Bad Things to happen (such as loss of referential transparency). Safe 
-   monads include the monads State, Reader, Writer, Maybe and 
+   Bad Things to happen (such as loss of referential transparency). Safe
+   monads include the monads State, Reader, Writer, Maybe and
    combinations of their corresponding monad transformers.
 -}
 module Control.Monad.ST.Trans.Internal where
@@ -67,10 +67,10 @@ liftST (ST f) = STT (\s -> let (# s', a #) = f s in pure (STTRet s' a))
 
 instance Monad m => Monad (STT s m) where
   return a = STT $ \st -> return (STTRet st a)
-  STT m >>= k = STT $ \st -> 
+  STT m >>= k = STT $ \st ->
     do ret <- m st
        case ret of
-         STTRet new_st a -> 
+         STTRet new_st a ->
              unSTT (k a) new_st
 
 instance MF.MonadFail m => MF.MonadFail (STT s m) where
@@ -80,7 +80,7 @@ instance MonadTrans (STT s) where
   lift m = STT $ \st ->
    do a <- m
       return (STTRet st a)
-      
+
 liftSTT :: STT s m a -> State# s -> m (STTRet s a)
 liftSTT (STT m) s = m s
 
@@ -106,7 +106,7 @@ instance (Monad m, Functor m) => Applicative (STT s m) where
 
 instance MonadError e m => MonadError e (STT s m) where
   throwError e = lift (throwError e)
-  catchError (STT m) f = STT $ \st -> catchError (m st) 
+  catchError (STT m) f = STT $ \st -> catchError (m st)
                          (\e -> unSTT (f e) st)
 
 instance MonadReader r m => MonadReader r (STT s m) where
@@ -409,4 +409,3 @@ instance (Applicative m, Monad m) => MArray (STUArray s) Word64 (STT s m) where
     unsafeRead arr i = liftST (unsafeRead arr i)
     {-# INLINE unsafeWrite #-}
     unsafeWrite arr i e = liftST (unsafeWrite arr i e)
-

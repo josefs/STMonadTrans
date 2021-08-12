@@ -4,7 +4,7 @@
    Copyright   :  Josef Svenningsson 2008-2017
                   (c) The University of Glasgow, 1994-2000
    License     :  BSD
- 
+
    Maintainer  :  josef.svenningsson@gmail.com
    Stability   :  experimental
    Portability :  non-portable (GHC Extensions)
@@ -12,7 +12,7 @@
    This library provides a monad transformer version of the ST monad.
 
    Warning! This monad transformer should not be used with monads that
-   can contain multiple answers, like the list monad. The reason is that 
+   can contain multiple answers, like the list monad. The reason is that
    the state token will be duplicated across the different answers and
    this causes Bad Things to happen (such as loss of referential
    transparency). Safe monads include the monads State, Reader, Writer,
@@ -206,7 +206,7 @@ runSTArray :: (
 runSTArray st = runSTT (st >>= unsafeFreezeSTArray)
 
 
-{-# NOINLINE unsafeIOToSTT #-} 
+{-# NOINLINE unsafeIOToSTT #-}
 unsafeIOToSTT :: (Monad m) => IO a -> STT s m a
 unsafeIOToSTT m = return $! unsafePerformIO m
 
