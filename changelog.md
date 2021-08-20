@@ -1,7 +1,14 @@
+0.4.6
+
+  * Warning-free for all supported GHC versions (7.6 -- 9.2).
+  * Drop `splitBase` cabal flag (`base >= 4` is already assumed).
+  * Include `README.md` in distributed tarball.
+  * Added maintainer Andreas Abel.
+
 0.4.5
 
-  * Don't use default class methods in any MArray (STUArray s) instance. Thanks to Henri Jones
-  * Allow tasty up to and including 1.4
+  * Don't use default class methods in any `MArray (STUArray s)` instance. Thanks to Henri Jones.
+  * Allow `tasty` up to and including 1.4.
 
 0.4.4
 
@@ -11,21 +18,21 @@
 0.4.3
 
   * Fix compilation for GHC 7.6.3. Thanks to Andrés Sicard-Ramírez.
-  * Export unsafe array operations
+  * Export unsafe array operations.
 
 0.4.2
 
-  * Deprecate runST and unsafeSTToIO in favor of
-    runSTT and unsafeSTTToIO.
-  * Added INLINE pragmas
+  * Deprecate `runST` and `unsafeSTToIO` in favor of
+    `runSTT` and `unsafeSTTToIO`.
+  * Added `INLINE` pragmas.
 
 0.4.1
 
-  * Add Applicative constraints to be compatible with GHC 7.8.4
-  * Add changelog
+  * Add `Applicative` constraints to be compatible with GHC 7.8.4.
+  * Add changelog.
 
 0.4
 
-  * New library structure, based on liftST. It reuses more code and
-    types from the standard ST monad. Thanks to @wyager for liftST.
-  * Instances for MArray
+  * New library structure, based on `liftST`. It reuses more code and
+    types from the standard `ST` monad. Thanks to @wyager for `liftST`.
+  * Instances for `MArray`.
