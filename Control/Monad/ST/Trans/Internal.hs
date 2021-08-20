@@ -6,8 +6,8 @@
                   (c) The University of Glasgow, 1994-2000
    License     :  BSD
 
-   Maintainer  :  josef.svenningsson@gmail.com
-   Stability   :  experimental
+   Maintainer  :  josef.svenningsson@gmail.com, Andreas Abel
+   Stability   :  stable
    Portability :  non-portable (GHC Extensions)
 
    This module provides the implementation of the 'STT' type for those

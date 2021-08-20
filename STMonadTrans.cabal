@@ -11,8 +11,8 @@ category:	Monads
 build-type:	Simple
 synopsis:	A monad transformer version of the ST monad
 description:
-   A monad transformer version of the ST monad
-
+   A monad transformer version of the ST monad.
+   .
    Warning! This monad transformer should not be used with monads that
    can contain multiple answers, like the list monad. The reason is that
    the state token will be duplicated across the different answers and

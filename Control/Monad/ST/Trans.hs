@@ -5,8 +5,8 @@
                   (c) The University of Glasgow, 1994-2000
    License     :  BSD
 
-   Maintainer  :  josef.svenningsson@gmail.com
-   Stability   :  experimental
+   Maintainer  :  josef.svenningsson@gmail.com, Andreas Abel
+   Stability   :  stable
    Portability :  non-portable (GHC Extensions)
 
    This library provides a monad transformer version of the ST monad.
@@ -15,8 +15,8 @@
    can contain multiple answers, like the list monad. The reason is that
    the state token will be duplicated across the different answers and
    this causes Bad Things to happen (such as loss of referential
-   transparency). Safe monads include the monads State, Reader, Writer,
-   Maybe and combinations of their corresponding monad transformers.
+   transparency). Safe monads include the monads @'State'@, @'Reader'@, @'Writer'@,
+   @'Maybe'@ and combinations of their corresponding monad transformers.
 
 -}
 module Control.Monad.ST.Trans(
