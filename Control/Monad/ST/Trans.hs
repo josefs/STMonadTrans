@@ -49,28 +49,25 @@ module Control.Monad.ST.Trans(
       unsafeSTTToIO,
       unsafeSTRefToIORef,
       unsafeIORefToSTRef
-      )where
+      ) where
 
-import GHC.Base
-import GHC.Arr (Array(..))
+import GHC.Base            (realWorld#)
+import GHC.Arr             (Ix, Array(..))
 import qualified GHC.Arr as STArray
 
-import Data.STRef (STRef)
-import qualified Data.STRef as STRef
-
-import Data.Array.ST hiding (runSTArray)
---import qualified Data.Array.ST as STArray
-
 #if __GLASGOW_HASKELL__ <= 708
-import Control.Applicative
+import Control.Applicative (Applicative)
 #endif
 
 import Control.Monad.ST.Trans.Internal
 
-import Data.IORef
+import Data.Array.ST       (STArray, newArray, readArray, writeArray)
+import Data.IORef          (IORef)
+import Data.STRef          (STRef)
+import qualified Data.STRef as STRef
 
-import Unsafe.Coerce
-import System.IO.Unsafe
+import System.IO.Unsafe    (unsafePerformIO)
+import Unsafe.Coerce       (unsafeCoerce)
 
 {-# INLINE newSTRef #-}
 -- | Create a new reference
