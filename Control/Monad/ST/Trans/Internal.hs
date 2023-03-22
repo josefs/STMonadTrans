@@ -73,9 +73,6 @@ instance (Monad m, Functor m) => Monad (STT s m) where
          STTRet new_st a ->
              unSTT (k a) new_st
 
-instance (MF.MonadFail m, Functor m) => MF.MonadFail (STT s m) where
-  fail msg = lift (fail msg)
-
 instance MonadTrans (STT s) where
   lift m = STT $ \st ->
    do a <- m
