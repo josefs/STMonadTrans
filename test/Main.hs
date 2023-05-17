@@ -5,6 +5,7 @@ import Test.Tasty.HUnit
 import GHC.STRef (STRef)
 import GHC.Arr (Array, listArray, (//))
 import Control.Monad.ST.Trans
+import Control.Monad.IO.Class
 import Control.Monad.Trans.Class
 import Control.Monad (guard)
 import Data.Array.ST (STUArray, freeze, newArray, newArray_, readArray, thaw, writeArray)
@@ -84,3 +85,9 @@ unitTests = testGroup "Unit Tests" [
 
 main :: IO ()
 main = defaultMain (testGroup "All Tests" [props,unitTests])
+
+
+-- Test for presence of MonadIO instance
+
+haveMonadIO :: IO ()
+haveMonadIO = runSTT $ liftIO $ putStrLn "We have the MonadIO instance!"

@@ -76,6 +76,9 @@ instance (Monad m, Functor m) => Monad (STT s m) where
 instance (MF.MonadFail m, Functor m) => MF.MonadFail (STT s m) where
   fail msg = lift (fail msg)
 
+instance (MonadIO m, Functor m) => MonadIO (STT s m) where
+  liftIO = lift . liftIO
+
 instance MonadTrans (STT s) where
   lift m = STT $ \st ->
    do a <- m
