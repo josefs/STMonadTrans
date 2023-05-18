@@ -1,3 +1,10 @@
+0.4.7
+
+  * Added `MonadIO` for `SST` (issue [#29](https://github.com/josefs/STMonadTrans/issues/29)).
+  * Make `transformers` dependency explicit.
+  * Bump `cabal-version` of `STMonadTrans.cabal` to 1.18.
+  * Tested with GHC 7.6.3 - 9.6.1.
+
 0.4.6
 
   * Warning-free for all supported GHC versions (7.6 -- 9.2).
