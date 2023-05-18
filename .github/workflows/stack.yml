@@ -1,0 +1,93 @@
+name: stack
+on:
+  push:
+    branches:
+      - master
+      - ci*
+  pull_request:
+    branches:
+      - master
+      - ci*
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  stack:
+    name: ${{ matrix.os }} stack ${{ matrix.ghc }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - os: ubuntu-latest
+          ghc: 9.4.5
+          resolver: nightly-2023-05-17
+        - os: ubuntu-latest
+          ghc: 9.2.7
+          resolver: lts-20.21
+        - os: ubuntu-latest
+          ghc: 9.0.2
+          resolver: lts-19.33
+        - os: ubuntu-latest
+          ghc: 8.10.7
+          resolver: lts-18.28
+        - os: ubuntu-latest
+          ghc: 8.8.4
+          resolver: lts-16.31
+        - os: ubuntu-latest
+          ghc: 8.6.5
+          resolver: lts-14.27
+        - os: ubuntu-latest
+          ghc: 8.4.4
+          resolver: lts-12.26
+        - os: ubuntu-latest
+          ghc: 8.2.2
+          resolver: lts-11.22
+        - os: ubuntu-latest
+          ghc: 8.0.2
+          resolver: lts-9.21
+
+        # Fails due to upstream issue https://github.com/commercialhaskell/stack/issues/6124
+        # - os: ubuntu-20.04
+        #   ghc: 7.10.3
+        #   resolver: lts-6.35
+
+        # Can't install GHC 7.8.4 anymore on ubuntu runners
+        # - os: ubuntu-18.04
+        #   ghc: 7.8.4
+        #   resolver: lts-2.22
+
+    steps:
+
+    - uses: actions/checkout@v3
+
+    - name: Install GHC and stack with haskell-actions/setup
+      uses: haskell-actions/setup@v2
+      id:   setup
+      with:
+        ghc-version: ${{ matrix.ghc }}
+        enable-stack: true
+        cabal-update: false
+
+    - name: Create stack.yaml
+      run: |
+        echo "resolver: ${{ matrix.resolver }}" > stack.yaml
+        echo "packages: [.]" >> stack.yaml
+
+    - uses: actions/cache@v3
+      with:
+        path: ${{ steps.setup.outputs.stack-root }}
+        key: ${{ runner.os }}-stack-${{ steps.setup.outputs.stack-version }}-ghc-${{ steps.setup.outputs.ghc-version }}-resolver-${{ matrix.resolver }}
+        restore-keys: ${{ runner.os }}-stack-${{ steps.setup.outputs.stack-version }}-ghc-${{ steps.setup.outputs.ghc-version }}-
+
+    - name: Build dependencies
+      run: stack build --system-ghc --dependencies-only
+
+    - name: Build
+      run: stack build --system-ghc
+
+    - name: Run tests
+      run: stack test --system-ghc
