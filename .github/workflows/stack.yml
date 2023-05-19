@@ -51,9 +51,9 @@ jobs:
           resolver: lts-9.21
 
         # Fails due to upstream issue https://github.com/commercialhaskell/stack/issues/6124
-        # - os: ubuntu-20.04
-        #   ghc: 7.10.3
-        #   resolver: lts-6.35
+        - os: ubuntu-20.04
+          ghc: 7.10.3
+          resolver: lts-6.35
 
         # Can't install GHC 7.8.4 anymore on ubuntu runners
         # - os: ubuntu-18.04
@@ -69,6 +69,7 @@ jobs:
       id:   setup
       with:
         ghc-version: ${{ matrix.ghc }}
+        stack-version: 2.11.1
         enable-stack: true
         cabal-update: false
 
