@@ -15,7 +15,7 @@ defaults:
 
 jobs:
   stack:
-    name: ${{ matrix.os }} stack ${{ matrix.ghc }}
+    name: Stack ${{ matrix.ghc }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     strategy:
@@ -23,11 +23,17 @@ jobs:
       matrix:
         include:
         - os: ubuntu-latest
-          ghc: 9.4.5
-          resolver: nightly-2023-05-17
+          ghc: 9.8.1
+          resolver: nightly-2023-10-17
         - os: ubuntu-latest
-          ghc: 9.2.7
-          resolver: lts-20.21
+          ghc: 9.6.3
+          resolver: nightly-2023-10-17
+        - os: ubuntu-latest
+          ghc: 9.4.7
+          resolver: lts-21.16
+        - os: ubuntu-latest
+          ghc: 9.2.8
+          resolver: lts-20.26
         - os: ubuntu-latest
           ghc: 9.0.2
           resolver: lts-19.33
@@ -60,6 +66,9 @@ jobs:
         #   ghc: 7.8.4
         #   resolver: lts-2.22
 
+    env:
+      stack: 'stack --system-ghc --no-install-ghc'
+
     steps:
 
     - uses: actions/checkout@v3
@@ -74,20 +83,74 @@ jobs:
 
     - name: Create stack.yaml
       run: |
-        echo "resolver: ${{ matrix.resolver }}" > stack.yaml
-        echo "packages: [.]" >> stack.yaml
+        cat > stack.yaml <<EOF
+        resolver: ${{ matrix.resolver }}
+        compiler: ghc-${{ matrix.ghc }}
+        packages: [.]
+        EOF
 
-    - uses: actions/cache@v3
+    # According to https://github.com/commercialhaskell/stack/issues/5754#issuecomment-1696156869
+    # not all of ~/.stack should be cached,
+    # only the index (pantry) and the dependencies (sqlite3+snapshots).
+
+    ## Pantry
+    ########################################################################
+
+    - name: Restore cached stack pantry
+      uses: actions/cache/restore@v3
+      id:   cache-pantry
       with:
-        path: ${{ steps.setup.outputs.stack-root }}
-        key: ${{ runner.os }}-stack-${{ steps.setup.outputs.stack-version }}-ghc-${{ steps.setup.outputs.ghc-version }}-resolver-${{ matrix.resolver }}
-        restore-keys: ${{ runner.os }}-stack-${{ steps.setup.outputs.stack-version }}-ghc-${{ steps.setup.outputs.ghc-version }}-
+        path: ${{ steps.setup.outputs.stack-root }}/pantry
+        key:  ${{ runner.os }}-stack-${{ steps.setup.outputs.stack-version }}-pantry-resolver-${{ matrix.resolver }}
+        # No fall-back keys here!
+
+    - name: Stack update
+      if:   steps.cache-pantry.outputs.cache-hit != 'true'
+      run:  ${{ env.stack }} update
+
+    - name: Cache stack pantry
+      if:   steps.cache-pantry.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v3
+      with:
+        path: ${{ steps.setup.outputs.stack-root }}/pantry
+        key:  ${{ steps.cache-pantry.outputs.cache-primary-key }}
+
+    ## Dependencies
+    ########################################################################
+
+    - name: Stack build plan
+      run:  ${{ env.stack }} test --dry-run > '.build-plan.txt'
+
+    - name: Restore cached dependencies
+      uses: actions/cache/restore@v3
+      id:   cache-deps
+      with:
+        path: |
+          ${{ steps.setup.outputs.stack-root }}/stack.sqlite3
+          ${{ steps.setup.outputs.stack-root }}/snapshots
+        key: ${{ runner.os }}-stack-${{ steps.setup.outputs.stack-version }}-ghc-${{ steps.setup.outputs.ghc-version }}-resolver-${{ matrix.resolver }}-plan-${{ hashfiles('.build-plan.txt') }}
+        restore-keys: |
+             ${{ runner.os }}-stack-${{ steps.setup.outputs.stack-version }}-ghc-${{ steps.setup.outputs.ghc-version }}-resolver-${{ matrix.resolver }}-
+             ${{ runner.os }}-stack-${{ steps.setup.outputs.stack-version }}-ghc-${{ steps.setup.outputs.ghc-version }}-
 
     - name: Build dependencies
-      run: stack build --system-ghc --dependencies-only
+      if:   steps.cache-deps.outputs.cache-hit != 'true'
+      run:  ${{ env.stack }} test --dependencies-only
 
-    - name: Build
-      run: stack build --system-ghc
+    - name: Cache dependencies
+      if:   steps.cache-deps.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v3
+      with:
+        path: |
+          ${{ steps.setup.outputs.stack-root }}/stack.sqlite3
+          ${{ steps.setup.outputs.stack-root }}/snapshots
+        key:  ${{ steps.cache-deps.outputs.cache-primary-key }}
+
+    ## Build and test STMonadTrans
+    ########################################################################
+
+    - name: Build w/ tests
+      run: ${{ env.stack }} test --no-run-tests
 
     - name: Run tests
-      run: stack test --system-ghc
+      run: ${{ env.stack }} test
