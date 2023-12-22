@@ -105,6 +105,10 @@ instance (Monad m, Functor m) => Applicative (STT s m) where
                            (STTRet s3 x) <- n s2
                            return (STTRet s3 (f x))
 
+instance (Monad m, Alternative m) => Alternative (STT s m) where
+  empty = STT $ \_ -> empty
+  STT m <|> STT n = STT $ \s# -> m s# <|> n s#
+
 -- Instances of other monad classes
 
 instance (MonadError e m, Functor m) => MonadError e (STT s m) where
