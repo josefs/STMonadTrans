@@ -4,6 +4,7 @@ import Test.Tasty.HUnit
 
 import GHC.STRef (STRef)
 import GHC.Arr (Array, listArray, (//))
+import Control.Applicative ((<|>), empty)
 import Control.Monad.ST.Trans
 import Control.Monad.IO.Class
 import Control.Monad.Trans.Class
@@ -16,6 +17,10 @@ props = testGroup "Properties" [
     \x -> runSTT (return x) == Just (x :: Int),
   testProperty "STT respects MonadTrans" $
     \m -> runSTT (lift m) == (m :: Maybe Int),
+  testProperty "STT respects Alternative Left" $
+    \m -> runSTT (lift m <|> empty) == (m :: Maybe Int),
+  testProperty "STT respects Alternative Right" $
+    \m -> runSTT (empty <|> lift m) == (m :: Maybe Int),
   testProperty "newSTRef . readSTRef == id" $
     \x -> runSTT ((newSTRef x :: STT s Maybe (STRef s Int)) >>= readSTRef) == Just x,
   testProperty "writeSTRef overwrite" $
