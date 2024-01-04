@@ -1,16 +1,15 @@
 cabal-version:  1.18
-name:		STMonadTrans
-version:	0.4.7
-x-revision:     1
-license:	BSD3
-license-file:	LICENSE
-author:		Josef Svenningsson
-maintainer:	josef.svenningsson@gmail.com, Andreas Abel
+name:           STMonadTrans
+version:        0.4.8
+license:        BSD3
+license-file:   LICENSE
+author:         Josef Svenningsson
+maintainer:     Andreas Abel, josef.svenningsson@gmail.com
 homepage:       https://github.com/josefs/STMonadTrans
 bug-reports:    https://github.com/josefs/STMonadTrans/issues
-category:	Monads
-build-type:	Simple
-synopsis:	A monad transformer version of the ST monad
+category:       Monads
+build-type:     Simple
+synopsis:       A monad transformer version of the ST monad
 description:
    A monad transformer version of the ST monad.
    .

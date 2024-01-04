@@ -1,11 +1,18 @@
-0.4.7
+0.4.8 -- 2023-01-04
+
+  * Added `Alternative` instance for `STT`, by William Rusnack
+    (PR [#33](https://github.com/josefs/STMonadTrans/pull/33)).
+  * Drop support for GHC 7.
+  * Tested with GHC 8.0.2 - 9.8.1.
+
+0.4.7 -- 2023-05-18
 
   * Added `MonadIO` for `SST` (issue [#29](https://github.com/josefs/STMonadTrans/issues/29)).
   * Make `transformers` dependency explicit.
   * Bump `cabal-version` of `STMonadTrans.cabal` to 1.18.
   * Tested with GHC 7.6.3 - 9.6.1.
 
-0.4.6
+0.4.6 -- 2021-08-21
 
   * Warning-free for all supported GHC versions (7.6 -- 9.2).
   * Drop `splitBase` cabal flag (`base >= 4` is already assumed).
