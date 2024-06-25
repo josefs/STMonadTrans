@@ -1,4 +1,4 @@
-0.4.8 -- 2023-01-04
+0.4.8 -- 2024-01-04
 
   * Added `Alternative` instance for `STT`, by William Rusnack
     (PR [#33](https://github.com/josefs/STMonadTrans/pull/33)).
