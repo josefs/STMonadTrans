@@ -22,10 +22,10 @@ jobs:
         include:
         - os: ubuntu-latest
           ghc: 9.8.2
-          resolver: nightly-2024-06-22
+          resolver: nightly-2024-10-21
         - os: ubuntu-latest
-          ghc: 9.6.5
-          resolver: lts-22.26
+          ghc: 9.6.6
+          resolver: lts-22.39
         - os: ubuntu-latest
           ghc: 9.4.8
           resolver: lts-21.25
@@ -47,22 +47,6 @@ jobs:
         - os: ubuntu-latest
           ghc: 8.4.4
           resolver: lts-12.26
-        - os: ubuntu-latest
-          ghc: 8.2.2
-          resolver: lts-11.22
-        - os: ubuntu-latest
-          ghc: 8.0.2
-          resolver: lts-9.21
-
-        # Fails due to upstream issue https://github.com/commercialhaskell/stack/issues/6124
-        # - os: ubuntu-20.04
-        #   ghc: 7.10.3
-        #   resolver: lts-6.35
-
-        # Can't install GHC 7.8.4 anymore on ubuntu runners
-        # - os: ubuntu-18.04
-        #   ghc: 7.8.4
-        #   resolver: lts-2.22
 
     env:
       stack: 'stack --system-ghc --no-install-ghc'
