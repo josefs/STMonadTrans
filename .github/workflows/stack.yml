@@ -21,11 +21,14 @@ jobs:
       matrix:
         include:
         - os: ubuntu-latest
-          ghc: 9.8.2
-          resolver: nightly-2024-10-21
+          ghc: 9.10.1
+          resolver: nightly-2025-02-18
+        - os: ubuntu-latest
+          ghc: 9.8.4
+          resolver: lts-23.9
         - os: ubuntu-latest
           ghc: 9.6.6
-          resolver: lts-22.39
+          resolver: lts-22.43
         - os: ubuntu-latest
           ghc: 9.4.8
           resolver: lts-21.25
