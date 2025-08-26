@@ -1,7 +1,6 @@
 cabal-version:  1.18
 name:           STMonadTrans
-version:        0.4.8
-x-revision:     1
+version:        0.4.8.1
 license:        BSD3
 license-file:   LICENSE
 author:         Josef Svenningsson
@@ -49,7 +48,6 @@ library
   default-language: Haskell2010
   build-depends:
       base         >= 4.9      && < 5
-    , transformers >= 0.2.0.0  && < 0.7
     , mtl          >= 1.1
     , array
 

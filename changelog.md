@@ -1,3 +1,8 @@
+0.4.8.1 -- 2025-08-26
+
+  * Remove `transformers` as direct dependency (fixing `-Werror=unused-packages`).
+  * Tested with GHC 8.0.2 - 9.14 alpha1.
+
 0.4.8 -- 2024-01-04
 
   * Added `Alternative` instance for `STT`, by William Rusnack
